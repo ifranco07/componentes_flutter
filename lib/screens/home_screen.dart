@@ -16,11 +16,11 @@ class HomeScreen extends StatelessWidget {
               title: Text(
                 'Entradas', 
                 //style: Theme.of(context).textTheme.headlineLarge,
-                style: AppTheme.darkTheme.textTheme.headlineLarge,
+                style: AppTheme.lightTheme.textTheme.headlineLarge,
                 ),
               subtitle:  Text(
                 'Introduciendo valores',
-                style: AppTheme.darkTheme.textTheme.bodySmall,
+                style: AppTheme.lightTheme.textTheme.bodySmall,
                 ),
               leading:  const Icon(Icons.input),
               trailing: const Icon(Icons.arrow_circle_right_rounded),
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: Text(
                 'Listview.builder',
-                style: AppTheme.darkTheme.textTheme.headlineLarge
+                style: AppTheme.lightTheme.textTheme.headlineLarge
                 ),
               subtitle: const Text('Lista con scroll infinito'),
               leading: const Icon(Icons.list),
@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: Text(
                 'Notificaciones',
-                style: AppTheme.darkTheme.textTheme.headlineLarge,
+                style: AppTheme.lightTheme.textTheme.headlineLarge,
               ),
               subtitle: const Text('Mostrar un notificación'),
               leading: const Icon(Icons.notification_add),
