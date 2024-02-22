@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme{
   //Constante de color primario
-  static const primaryColor= Color.fromARGB(255, 255, 100, 100);
+  static const primaryColor= Color.fromARGB(200, 255, 255, 255);
   //Constante de color secunadrio
-  static const secondaryColor= Colors.black;
+  static const secondaryColor= Color.fromARGB(255, 200, 200, 200);
   //Constante de color de fondo
-  static const backColor=  Color.fromARGB(197, 80, 130, 200);
+  static const backColor=  Color.fromARGB(255, 0, 0, 0);
   //Constante de tema
   static final ThemeData lightTheme= ThemeData.dark().copyWith(
     scaffoldBackgroundColor: backColor,
