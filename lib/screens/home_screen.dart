@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:practica3/screens/infinite_scroll.dart';
 import 'package:practica3/screens/inputs_screen.dart';
+import 'package:practica3/screens/notifications_screen.dart';
 import 'package:practica3/theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -44,6 +46,12 @@ class HomeScreen extends StatelessWidget {
                 ),
               leading: const Icon(Icons.list),
               trailing: const Icon(Icons.arrow_circle_right_rounded),
+               onTap: () {
+                final ruta2 = MaterialPageRoute(builder: (context) {
+                  return const InfiniteScrollScreen();
+                });
+                Navigator.push(context, ruta2);
+              },
             ),
             const Divider(),
             ListTile(
@@ -57,6 +65,12 @@ class HomeScreen extends StatelessWidget {
                 ),
               leading: const Icon(Icons.notification_add),
               trailing: const Icon(Icons.arrow_circle_right_rounded),
+               onTap: () {
+                final ruta3 = MaterialPageRoute(builder: (context) {
+                  return const NotificationsScreen();
+                });
+                Navigator.push(context, ruta3);
+              },
             ),
 
           ],
