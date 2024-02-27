@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   //constante de color primario
- static const primaryColor= Color.fromARGB(200, 255, 255, 255);
+ static const primaryColor= Color.fromARGB(255, 255, 0, 0);
   //Constante de color secunadrio
-  static const secondaryColor= Color.fromARGB(255, 200, 200, 200);
+  static const secondaryColor= Colors.black;
   //Constante de color de fondo
-  static const backColor=  Color.fromARGB(255, 0, 0, 0);
+  static const backColor=  Color.fromARGB(238, 237, 239, 240);
   //constante de temas
   static final ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: backColor,
@@ -46,6 +46,11 @@ class AppTheme {
         decorationColor: const Color.fromARGB(255, 165, 163, 163),
         decorationStyle: TextDecorationStyle.wavy,
         decorationThickness: 1.0,
+      ),
+      headlineMedium: GoogleFonts.montserrat(
+        color: secondaryColor,
+        fontSize: 21.5,
+        fontWeight: FontWeight.bold,
       ),
       //estilo para texto muy pequeño
       bodySmall: GoogleFonts.bebasNeue(color: secondaryColor, fontSize: 16.0),
