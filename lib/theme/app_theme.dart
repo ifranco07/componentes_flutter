@@ -1,38 +1,54 @@
-//Definicion de los temas de estilo de la app
+//Definicion de los temas de estilo de lapp
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AppTheme{
-  //Constante de color primario
-  static const primaryColor= Color.fromARGB(200, 255, 255, 255);
+class AppTheme {
+  //constante de color primario
+ static const primaryColor= Color.fromARGB(200, 255, 255, 255);
   //Constante de color secunadrio
   static const secondaryColor= Color.fromARGB(255, 200, 200, 200);
   //Constante de color de fondo
   static const backColor=  Color.fromARGB(255, 0, 0, 0);
-  //Constante de tema
-  static final ThemeData lightTheme= ThemeData.dark().copyWith(
+  //constante de temas
+  static final ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: backColor,
-        appBarTheme: const AppBarTheme(
-          color: primaryColor         
-  ),
-  textTheme: TextTheme(
-    //Titulos muy grandes
-    headlineLarge: GoogleFonts.abrilFatface(
-      color:primaryColor,
-      fontSize: 26.5,
-      fontWeight: FontWeight.w500,
-      fontStyle: FontStyle.italic,
-      decoration: TextDecoration.underline,
-      decorationColor: primaryColor,
-      decorationStyle: TextDecorationStyle.wavy,
-      decorationThickness: 3.0,
+    appBarTheme: AppBarTheme(
+      color: primaryColor,
+      titleTextStyle: GoogleFonts.bebasNeue(
+        color: const Color.fromARGB(255, 0, 0, 0),
+        fontSize: 25.8,
+        fontWeight: FontWeight.bold,
+      ),
     ),
-
-    //Estilo para texto muy pequeño
-    bodySmall: GoogleFonts.montserrat(
-      color: secondaryColor,
-      fontSize: 16.0
-    )
-  )
-);
+    iconTheme: const IconThemeData(
+      color: Colors.white,
+      size: 35.0,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(
+            const Color.fromARGB(255, 255, 255, 255),
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            const Color.fromARGB(255, 0, 0, 0),
+          ),
+          textStyle: MaterialStateProperty.all(GoogleFonts.pacifico(
+            fontSize: 25.0,
+          ))),
+    ),
+    textTheme: TextTheme(
+      //titulos muy grandes
+      headlineLarge: GoogleFonts.bebasNeue(
+        color: primaryColor,
+        fontSize: 26.5,
+        fontWeight: FontWeight.w500,
+        decoration: TextDecoration.underline,
+        decorationColor: const Color.fromARGB(255, 165, 163, 163),
+        decorationStyle: TextDecorationStyle.wavy,
+        decorationThickness: 1.0,
+      ),
+      //estilo para texto muy pequeño
+      bodySmall: GoogleFonts.bebasNeue(color: secondaryColor, fontSize: 16.0),
+    ),
+  );
 }
