@@ -11,6 +11,7 @@ class InputsScreen extends StatefulWidget {
 class _InputsScreenState extends State<InputsScreen> {
   bool switchValue = false; //controlar el widget switch
   double sliderValue = 0.0; 
+  int radioSelect = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class _InputsScreenState extends State<InputsScreen> {
           entradaNombre(),
           entradaSwitch(),
           entradaSlider(),
+          entradaRadio(),
           const ElevatedButton(
             onPressed: null, 
             child: Text(
@@ -103,6 +105,54 @@ class _InputsScreenState extends State<InputsScreen> {
                print('Se cambio el slider: $sliderValue');
           });
         }),
+      ],
+    );
+  }
+  Column entradaRadio() {
+    return Column(
+      children: [
+        Text(
+          '¿Qué prefieres para desarrollo móvil?',
+          style: AppTheme.lightTheme.textTheme.headlineLarge,
+        ),
+        ListTile( 
+          title: Text(
+            'Kotlin',
+            style: AppTheme.lightTheme.textTheme.bodySmall,
+          ),
+          leading: Transform.scale(
+            scale: 1.5,
+            child: Radio(
+              value: 1,
+              groupValue: radioSelect,
+              onChanged: (value) {
+                setState(() {
+                  radioSelect= value!;
+                  print('Selección de botón radio: $radioSelect');
+                });
+              },
+            ),
+          ),
+        ),
+        ListTile( 
+          title: Text(
+            'Flutter',
+            style: AppTheme.lightTheme.textTheme.bodySmall,
+          ),
+          leading: Transform.scale(
+            scale: 1.5,
+            child: Radio(
+              value: 2,
+              groupValue: radioSelect,
+              onChanged: (value) {
+                setState(() {
+                  radioSelect= value!;
+                  print('Selección de botón radio: $radioSelect');
+                });
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
