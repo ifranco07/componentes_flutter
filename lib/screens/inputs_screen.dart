@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:practica3/screens/home_screen.dart';
+import 'package:practica3/screens/images_screen.dart';
+import 'package:practica3/screens/infinite_scroll.dart';
+import 'package:practica3/screens/notifications_screen.dart';
 import 'package:practica3/theme/app_theme.dart';
 
 class InputsScreen extends StatefulWidget {
@@ -16,6 +19,31 @@ class _InputsScreenState extends State<InputsScreen> {
   bool isChecked1= false;
   bool isChecked2= false;
   bool isChecked3= false;
+  int indexNavigation= 0;
+
+  openScreen(int index, BuildContext context) {
+    MaterialPageRoute ruta = 
+      MaterialPageRoute(builder: (context) => const HomeScreen());
+
+    switch ( index ) {
+      case 0:
+        ruta = MaterialPageRoute(builder: (context) => const HomeScreen());
+        break;
+      case 1:
+        ruta = MaterialPageRoute(builder: (context) => const InfiniteScrollScreen());
+        break;
+      case 2:
+        ruta = MaterialPageRoute(builder: (context) => const NotificationsScreen());
+        break;
+      case 3:
+        ruta = MaterialPageRoute(builder: (context) => const ImagesScreen());
+        break;     
+    }
+    setState(() {
+      indexNavigation = index;
+      Navigator.push(context, ruta);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +69,37 @@ class _InputsScreenState extends State<InputsScreen> {
             onPressed: null, 
             child: Text(
               'Guardar',
-              )),
+              )
+              ),
             ],
           ),
        ),
        bottomNavigationBar: BottomNavigationBar(
+        currentIndex: indexNavigation,
         backgroundColor: AppTheme.primaryColor,
+        unselectedItemColor: AppTheme.primaryColor,
+        selectedItemColor: Colors.amber,
+        onTap: (index) => openScreen(index, context),
         items: const[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label:'Inicio',
              ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.data_exploration),
-            label:'Inicio',
+            icon: Icon(Icons.list),
+            label:'Lista',
+             ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notification_add),
+            label:'Notificaciones',
+             ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.image),
+            label:'Imagenes',
+             ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.exit_to_app),
+            label:'Salir',
              ),
         ]
         ),
@@ -111,7 +156,6 @@ class _InputsScreenState extends State<InputsScreen> {
           onChanged: (value){
             setState(() {
                sliderValue = value;
-               print('Se cambio el slider: $sliderValue');
           });
         }),
       ],
@@ -137,7 +181,6 @@ class _InputsScreenState extends State<InputsScreen> {
               onChanged: (value) {
                 setState(() {
                   radioSelect= value!;
-                  print('Selección de botón radio: $radioSelect');
                 });
               },
             ),
@@ -156,7 +199,6 @@ class _InputsScreenState extends State<InputsScreen> {
               onChanged: (value) {
                 setState(() {
                   radioSelect= value!;
-                  print('Selección de botón radio: $radioSelect');
                 });
               },
             ),
