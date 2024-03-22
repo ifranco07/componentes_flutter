@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:practica3/models/data.dart';
+import 'package:practica3/screens/data_screen.dart';
 import 'package:practica3/screens/home_screen.dart';
 import 'package:practica3/screens/images_screen.dart';
 import 'package:practica3/screens/infinite_scroll.dart';
@@ -13,31 +16,35 @@ class InputsScreen extends StatefulWidget {
 }
 
 class _InputsScreenState extends State<InputsScreen> {
+  String? nombre;
   bool switchValue = false; //controlar el widget switch
-  double sliderValue = 0.0; 
-  int radioSelect = 0;
-  bool isChecked1= false;
-  bool isChecked2= false;
-  bool isChecked3= false;
-  int indexNavigation= 0;
+  double sliderValue = 0.0;
+  String? radioSelect;
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+  int indexNavigation = 0;
 
   openScreen(int index, BuildContext context) {
-    MaterialPageRoute ruta = 
-      MaterialPageRoute(builder: (context) => const HomeScreen());
-
-    switch ( index ) {
+    MaterialPageRoute ruta =
+        MaterialPageRoute(builder: (context) => const HomeScreen());
+    switch (index) {
       case 0:
         ruta = MaterialPageRoute(builder: (context) => const HomeScreen());
         break;
       case 1:
-        ruta = MaterialPageRoute(builder: (context) => const InfiniteScrollScreen());
+        ruta = MaterialPageRoute(
+            builder: (context) => const InfiniteScrollScreen());
         break;
       case 2:
-        ruta = MaterialPageRoute(builder: (context) => const NotificationsScreen());
+        ruta = MaterialPageRoute(
+            builder: (context) => const NotificationScreen());
         break;
       case 3:
         ruta = MaterialPageRoute(builder: (context) => const ImagesScreen());
-        break;     
+        break;
+      case 4: ///comportamiento aplicable solo a moviles
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
     setState(() {
       indexNavigation = index;
@@ -47,77 +54,89 @@ class _InputsScreenState extends State<InputsScreen> {
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-    appBar: AppBar(
-      title: const Text('Entradas'),
-    ),
-     body: Padding(
-       padding: const EdgeInsets.all(20.0),
-       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          entradaNombre(),
-          entradaSwitch(),
-          entradaSlider(),
-          entradaRadio(),
-          Text(
-            '¿qué usas para correr tus apps?',
-            style: AppTheme.lightTheme.textTheme.headlineLarge,
-          ),
-          entradasCheck(),
-          const ElevatedButton(
-            onPressed: null, 
-            child: Text(
-              'Guardar',
-              )
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Entradas'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            entradaNombre(),
+            entradaSwitch(),
+            entradaSlider(),
+            entradaRadio(),
+            Text(
+              '¿qué usas para correr tus apps?',
+              style: AppTheme.lightTheme.textTheme.headlineLarge,
+            ),
+            entradasCheck(),
+            ElevatedButton(
+              onPressed: () {
+                Data data= Data(
+                  nomb: nombre!, 
+                  gusto: switchValue, 
+                  calif: sliderValue.round(), 
+                  movil: radioSelect!, 
+                  nav: isChecked1, 
+                  emul: isChecked2, 
+                  phone: isChecked3);
+                MaterialPageRoute ruta= 
+                  MaterialPageRoute(builder: (context) =>  DataScreen(datos: data,));
+                Navigator.push(context, ruta);
+              },
+              child: const Text(
+                'Guardar',
               ),
-            ],
-          ),
-       ),
-       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: indexNavigation,
-        backgroundColor: AppTheme.primaryColor,
-        unselectedItemColor: AppTheme.primaryColor,
-        selectedItemColor: Colors.amber,
-        onTap: (index) => openScreen(index, context),
-        items: const[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label:'Inicio',
-             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label:'Lista',
-             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notification_add),
-            label:'Notificaciones',
-             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.image),
-            label:'Imagenes',
-             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.exit_to_app),
-            label:'Salir',
-             ),
-        ]
+            ),
+          ],
         ),
-     );
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: indexNavigation,
+          backgroundColor: AppTheme.primaryColor,
+          unselectedItemColor: AppTheme.backColor,
+          selectedItemColor: AppTheme.backColor,
+          onTap: (index) => openScreen(index, context),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Inicio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'lista',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notification_add),
+              label: 'Notificaciones',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.image),
+              label: 'Imagenes',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.exit_to_app_rounded),
+              label: 'Salida',
+            ),
+          ]),
+    );
   }
 
   TextField entradaNombre() {
     return TextField(
-        style: AppTheme.lightTheme.textTheme.headlineMedium,
-        decoration: InputDecoration(
-          border: const UnderlineInputBorder(),
-          labelText: 'Escribe tu nombre: ',
-          labelStyle: AppTheme.lightTheme.textTheme.headlineLarge, 
-        ),
-      );
+      style: AppTheme.lightTheme.textTheme.headlineMedium,
+      decoration: InputDecoration(
+        border: const UnderlineInputBorder(),
+        labelText: 'Escribe tu nombre: ',
+        labelStyle: AppTheme.lightTheme.textTheme.headlineLarge,
+      ),
+      onChanged: (text)=> nombre = text,
+    );
   }
 
-  Row entradaSwitch(){
+  Row entradaSwitch() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -126,41 +145,42 @@ class _InputsScreenState extends State<InputsScreen> {
           style: AppTheme.lightTheme.textTheme.headlineLarge,
         ),
         Switch(
-          value: switchValue,
-          onChanged:(value) {
-            setState(() {
-              switchValue = value;
-            });
-          }),
+            value: switchValue,
+            onChanged: (value) {
+              setState(() {
+                switchValue = value;
+              });
+            }),
       ],
     );
   }
 
-  Column entradaSlider(){
+  Column entradaSlider() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           'Indica que tanto te gusta flutter: ',
-         style: AppTheme.lightTheme.textTheme.headlineLarge,
+          style: AppTheme.lightTheme.textTheme.headlineLarge,
         ),
         Slider(
-          min: 0.0,
-          max: 10.0,
-          activeColor: AppTheme.secondaryColor,
-          thumbColor: AppTheme.primaryColor,
-          inactiveColor: AppTheme.backColor,
-          value: sliderValue, 
-          divisions: 10,
-          label: '${sliderValue.round()}',
-          onChanged: (value){
-            setState(() {
-               sliderValue = value;
-          });
-        }),
+            min: 0.0,
+            max: 10.0,
+            activeColor: AppTheme.secondaryColor,
+            thumbColor: AppTheme.primaryColor,
+            inactiveColor: AppTheme.backColor,
+            value: sliderValue,
+            divisions: 10,
+            label: '${sliderValue.round()}',
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            }),
       ],
     );
   }
+
   Column entradaRadio() {
     return Column(
       children: [
@@ -168,7 +188,7 @@ class _InputsScreenState extends State<InputsScreen> {
           '¿Qué prefieres para desarrollo móvil?',
           style: AppTheme.lightTheme.textTheme.headlineLarge,
         ),
-        ListTile( 
+        ListTile(
           title: Text(
             'Kotlin',
             style: AppTheme.lightTheme.textTheme.bodySmall,
@@ -176,17 +196,17 @@ class _InputsScreenState extends State<InputsScreen> {
           leading: Transform.scale(
             scale: 1.5,
             child: Radio(
-              value: 1,
+              value: 'Kotlin',
               groupValue: radioSelect,
               onChanged: (value) {
                 setState(() {
-                  radioSelect= value!;
+                  radioSelect = value!;
                 });
               },
             ),
           ),
         ),
-        ListTile( 
+        ListTile(
           title: Text(
             'Flutter',
             style: AppTheme.lightTheme.textTheme.bodySmall,
@@ -194,11 +214,11 @@ class _InputsScreenState extends State<InputsScreen> {
           leading: Transform.scale(
             scale: 1.5,
             child: Radio(
-              value: 2,
+              value: 'Flutter',
               groupValue: radioSelect,
               onChanged: (value) {
                 setState(() {
-                  radioSelect= value!;
+                  radioSelect = value!;
                 });
               },
             ),
@@ -214,51 +234,50 @@ class _InputsScreenState extends State<InputsScreen> {
       children: [
         Text(
           'Navegador',
-          style:AppTheme.lightTheme.textTheme.bodySmall,
+          style: AppTheme.lightTheme.textTheme.bodySmall,
         ),
         Transform.scale(
           scale: 1.5,
           child: Checkbox(
-            value: isChecked1, 
+            value: isChecked1,
             onChanged: (value) {
               setState(() {
-                isChecked1 = value!;             
+                isChecked1 = value!;
               });
-            }
+            },
           ),
         ),
         Text(
           'Emulador',
-          style:AppTheme.lightTheme.textTheme.bodySmall,
+          style: AppTheme.lightTheme.textTheme.bodySmall,
         ),
         Transform.scale(
           scale: 1.5,
           child: Checkbox(
-            value: isChecked2, 
+            value: isChecked2,
             onChanged: (value) {
               setState(() {
-                isChecked2  = value!;             
+                isChecked2 = value!;
               });
-            }
+            },
           ),
         ),
         Text(
           'Smartphone',
-          style:AppTheme.lightTheme.textTheme.bodySmall,
+          style: AppTheme.lightTheme.textTheme.bodySmall,
         ),
         Transform.scale(
           scale: 1.5,
           child: Checkbox(
-            value: isChecked3, 
+            value: isChecked3,
             onChanged: (value) {
               setState(() {
-                isChecked3 = value!;             
+                isChecked3 = value!;
               });
-            }
+            },
           ),
-        ),   
+        ),
       ],
     );
   }
-
 }
